@@ -1,12 +1,12 @@
-/* Общие сбросы, чтобы отступы не ломали размеры */
+/* Общие сбросы */
 * {
-    box-sizing: border-box;
+    box-sizing: border-box; /* Теперь границы не расширяют блоки */
     margin: 0;
     padding: 0;
 }
 
 :root {
-    --cell-size: 70px; /* Фиксированный размер клетки */
+    --cell-size: 70px;
     --light-cell: #f0d9b5;
     --dark-cell: #b58863;
 }
@@ -27,22 +27,27 @@ body {
     color: white;
 }
 
-/* Обертка, которая держит доску */
+/* Обертка */
 .board-wrapper {
-    padding: 10px;
+    padding: 5px; /* Уменьшил, чтобы плотнее сидело */
     background: #34495e;
     border-radius: 4px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    line-height: 0; /* Убирает лишние микро-отступы между инлайновыми элементами */
 }
 
-/* Сама доска — строго 8 на 8 */
+/* Сама доска — теперь она идеально ровная */
 .board {
     display: grid;
+    /* Убрал calc, гриды сами всё посчитают по repeat */
     grid-template-columns: repeat(8, var(--cell-size));
     grid-template-rows: repeat(8, var(--cell-size));
-    width: calc(var(--cell-size) * 8);
-    height: calc(var(--cell-size) * 8);
-    border: 2px solid #1a252f;
+    
+    /* Важно: border не должен распирать доску */
+    border: 5px solid #1a252f; 
+    width: max-content; 
+    height: max-content;
+    overflow: hidden; /* Чтобы ничего не вылазило */
 }
 
 .cell {
@@ -51,9 +56,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 50px; /* Размер фигур */
+    font-size: 45px; /* Чуть уменьшил, чтобы не распирало ячейку */
     cursor: pointer;
     user-select: none;
+    line-height: 1; /* Чтобы центровка текста была точной */
 }
 
 .cell.light { background-color: var(--light-cell); }
@@ -62,21 +68,27 @@ body {
 /* Фигуры */
 .white-piece { 
     color: #ffffff; 
-    text-shadow: 0 0 2px #000; 
+    text-shadow: 1px 1px 2px #000; 
 }
 .black-piece { 
     color: #000000; 
 }
 
 /* Подсветка */
-.selected { background-color: #bbc14d !important; }
+.selected { 
+    background-color: #bbc14d !important; 
+}
+.possible-move {
+    position: relative;
+}
 .possible-move::after {
     content: "";
+    position: absolute;
     width: 20px;
     height: 20px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 50%;
 }
 .possible-capture {
-    box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.5);
+    box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.6);
 }
