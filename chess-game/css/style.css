@@ -1,11 +1,14 @@
+/* Общие сбросы, чтобы отступы не ломали размеры */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 :root {
-    --cell-size: 65px;
+    --cell-size: 70px; /* Фиксированный размер клетки */
     --light-cell: #f0d9b5;
     --dark-cell: #b58863;
-    --highlight: rgba(155, 199, 0, 0.6);
-    --capture: rgba(255, 50, 50, 0.7);
-    --bg-color: #2c3e50;
-    --panel-bg: #34495e;
 }
 
 body {
@@ -14,39 +17,33 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    margin: 0;
-    background-color: var(--bg-color);
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
+    background-color: #2c3e50;
+    font-family: sans-serif;
 }
 
 .info-panel {
-    margin-bottom: 15px;
-    font-size: 26px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: white;
 }
 
+/* Обертка, которая держит доску */
 .board-wrapper {
-    display: grid;
-    grid-template-columns: 30px auto 30px;
-    grid-template-rows: 30px auto 30px;
-    background: var(--panel-bg);
     padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    background: #34495e;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+/* Сама доска — строго 8 на 8 */
 .board {
     display: grid;
     grid-template-columns: repeat(8, var(--cell-size));
     grid-template-rows: repeat(8, var(--cell-size));
+    width: calc(var(--cell-size) * 8);
+    height: calc(var(--cell-size) * 8);
     border: 2px solid #1a252f;
 }
-
-/* Стили координат */
-.coord-row { display: flex; justify-content: space-around; align-items: center; font-weight: bold; color: #bdc3c7; }
-.coord-col { display: flex; flex-direction: column; justify-content: space-around; align-items: center; font-weight: bold; color: #bdc3c7; }
 
 .cell {
     width: var(--cell-size);
@@ -54,56 +51,32 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 48px;
+    font-size: 50px; /* Размер фигур */
     cursor: pointer;
-    position: relative;
-    transition: transform 0.1s;
+    user-select: none;
 }
 
-.cell:active { transform: scale(0.95); }
 .cell.light { background-color: var(--light-cell); }
 .cell.dark { background-color: var(--dark-cell); }
 
 /* Фигуры */
-.white-piece { color: #fff; text-shadow: 0 0 2px #000, 1px 1px 3px rgba(0,0,0,0.3); }
-.black-piece { color: #000; text-shadow: 0 0 1px #fff; }
+.white-piece { 
+    color: #ffffff; 
+    text-shadow: 0 0 2px #000; 
+}
+.black-piece { 
+    color: #000000; 
+}
 
-/* Состояния игры */
+/* Подсветка */
 .selected { background-color: #bbc14d !important; }
-
 .possible-move::after {
     content: "";
-    width: 22px;
-    height: 22px;
-    background-color: var(--highlight);
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 50%;
 }
-
 .possible-capture {
-    box-shadow: inset 0 0 20px 5px var(--capture);
+    box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.5);
 }
-
-.check {
-    background-color: #e74c3c !important;
-    animation: pulse 1.2s infinite;
-}
-
-@keyframes pulse {
-    0% { box-shadow: inset 0 0 10px #000; }
-    50% { box-shadow: inset 0 0 40px #c0392b; }
-    100% { box-shadow: inset 0 0 10px #000; }
-}
-
-#restart-btn {
-    margin-top: 25px;
-    padding: 12px 30px;
-    font-size: 18px;
-    background: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-#restart-btn:hover { background: #2ecc71; }
