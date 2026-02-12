@@ -29,7 +29,7 @@ body {
 
 /* Обертка */
 .board-wrapper {
-    padding: 5px; /* Уменьшил, чтобы плотнее сидело */
+    padding: 5px; 
     background: #34495e;
     border-radius: 4px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -38,15 +38,14 @@ body {
 
 .board {
     display: grid;
-    /* Убрал calc, гриды сами всё посчитают по repeat */
     grid-template-columns: repeat(8, var(--cell-size));
     grid-template-rows: repeat(8, var(--cell-size));
     
-    /* Важно: border не должен распирать доску */
+    
     border: 5px solid #1a252f; 
     width: max-content; 
     height: max-content;
-    overflow: hidden; /* Чтобы ничего не вылазило */
+    overflow: hidden; 
 }
 
 .cell {
@@ -55,10 +54,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 45px; /* Чуть уменьшил, чтобы не распирало ячейку */
+    font-size: 45px; 
     cursor: pointer;
     user-select: none;
-    line-height: 1; /* Чтобы центровка текста была точной */
+    line-height: 1; 
 }
 
 .cell.light { background-color: var(--light-cell); }
